@@ -7,8 +7,8 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-selenium = "^3.141.0"
 validators = "^0.17.1"
+undetected-chromedriver = "^3.5.5"
 
 [tool.poetry.dev-dependencies]
 
