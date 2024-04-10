@@ -131,7 +131,7 @@ else:
     raise Exception("No notebooks")
 
 chrome_options = uc.ChromeOptions()
-# chrome_options.add_argument("--headless")  # uncomment for headless mode
+chrome_options.add_argument("--headless")  # uncomment for headless mode
 chrome_options.add_argument("--no-sandbox")
 chrome_options.user_data_dir = "profile"  # left for debugging
 chrome_options.add_argument("--disable-dev-shm-usage")
@@ -165,7 +165,7 @@ if exists_by_text(wd, "Sign in"):
     wd.quit()
 
     chrome_options2 = uc.ChromeOptions()
-    # chrome_options.add_argument("--headless")  # uncomment for headless mode
+    chrome_options.add_argument("--headless")  # uncomment for headless mode
     chrome_options2.add_argument("--no-sandbox")
     chrome_options2.user_data_dir = "profile"  # left for debugging
     chrome_options2.add_argument("--disable-dev-shm-usage")
