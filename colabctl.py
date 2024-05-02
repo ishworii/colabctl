@@ -25,16 +25,15 @@ def setup_logger(name, log_file, level=logging.INFO, console_handler=True):
         console_handler = logging.StreamHandler()
         console_handler.setFormatter(formatter)
         logger.addHandler(console_handler)
-    else:
-        file_handler = logging.FileHandler(log_file)
-        file_handler.setFormatter(formatter)
-        logger.addHandler(file_handler)
+    file_handler = logging.FileHandler(log_file)
+    file_handler.setFormatter(formatter)
+    logger.addHandler(file_handler)
 
     return logger
 
 
 # setup logger
-logger = setup_logger("colabctl", "colabctl.log", console_handler=False)
+logger = setup_logger("colabctl", "colabctl.log", console_handler=True)
 
 
 def sleep(seconds):
@@ -191,7 +190,7 @@ def main():
                                                     '//mwc-dialog[@class="yes-no-dialog"]//mwc-button['
                                                     '@dialogaction="ok"]')
 
-                        ok_button.click()
+                        wd.execute_script("arguments[0].click();", ok_button)
 
                     sleep(5)
                     # run all cells
@@ -204,16 +203,14 @@ def main():
                 logger.warning(f"Error while clearing/resetting/running all cells :{e}")
             while running:
                 try:
-                    wd.find_element(
-                        By.CSS_SELECTOR, ".notebook-content-background"
-                    ).click()
-
                     scroll_to_bottom(wd)
                 except Exception as e:
                     logger.warning(f"Error while scrolling to the buttom: {e}")
                 cell_outputs = wd.find_elements(By.XPATH, "//pre")
+                cell_outputs = [cell.text for cell in cell_outputs if cell.text]
+                sleep(1)
                 for output in cell_outputs:
-                    if args.fork in output.text:
+                    if args.fork in output:
                         running = False
                         logger.info("Completion string found. Waiting for next cycle.")
                         break
